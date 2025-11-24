@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Voting Form</title>
+</head>
+<body>
+  <h2>Vote for Your Top 3</h2>
+
+  <form id="voteForm">
+    <label>Vote 1:</label>
+    <input type="text" name="vote1" required><br><br>
+    
+    <label>Vote 2:</label>
+    <input type="text" name="vote2"><br><br>
+    
+    <label>Vote 3:</label>
+    <input type="text" name="vote3"><br><br>
+
+    <label>Email (optional):</label>
+    <input type="email" name="email"><br><br>
+
+    <button type="submit">Submit Vote</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    const SCRIPT_URL = "YOUR_GOOGLE_WEB_APP_URL_HERE";
+
+    document.getElementById("voteForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+      .then(res => res.json())
+      .then(() => {
+        document.getElementById("result").innerText = "Thanks! Your vote was submitted.";
+        e.target.reset();
+      })
+      .catch(err => {
+        document.getElementById("result").innerText = "Error submitting vote.";
+      });
+    });
+  </script>
+</body>
+</html>
