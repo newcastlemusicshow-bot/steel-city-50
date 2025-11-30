@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hot 100 Voting</title>
+    <title>Steel City 50 2025 Voting</title>
     <style>
         * {
             margin: 0;
@@ -422,7 +422,7 @@
         // Configuration
         const MAX_SELECTIONS = 10;
         const MAX_CUSTOM = 5;
-        const GOOGLE_SHEETS_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL'; // Replace with your script URL
+        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxzWGzTOm7jpUeoUO2NJtS5nzUoGUhqCx2_v2T5iKiDgG5VyQx8_iF0_nJYRBxa2Hh8Gg/exec'; // Replace with your script URL
 
         // Sample songs - Replace with your actual track list
         const allSongs = [
@@ -665,12 +665,12 @@
                 localStorage.setItem('allVotes', JSON.stringify(allVotes));
 
                 // If you have Google Sheets setup:
-                // await fetch(GOOGLE_SHEETS_URL, {
-                //     method: 'POST',
-                //     mode: 'no-cors',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify(voteData)
-                // });
+                 await fetch(GOOGLE_SHEETS_URL, {
+                     method: 'POST',
+                     mode: 'no-cors',
+                     headers: { 'Content-Type': 'application/json' },
+                     body: JSON.stringify(voteData)
+                
 
                 // Show success
                 document.getElementById('totalCount').textContent = total;
