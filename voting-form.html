@@ -429,7 +429,40 @@
 
 // Load songs from Google Sheets on page load
 async function loadSongsFromSheet() {
-    const SHEET_ID = 'YOUR_SHEET_ID_HERE';
+    const SHEET_ID = 'Ylet allSongs = [];
+
+// Load songs from Google Sheets on page load
+async function loadSongsFromSheet() {
+    const SHEET_ID = '1bBkfFxw5I2aNVxWTknl6XSYHJj6nqQD5pKk_MAXQ368';
+    const RANGE = 'Sheet1!A2:C'; // Adjust if your data is on a different sheet/range
+    const API_KEY = 'https://script.google.com/macros/s/AKfycbxzWGzTOm7jpUeoUO2NJtS5nzUoGUhqCx2_v2T5iKiDgG5VyQx8_iF0_nJYRBxa2Hh8Gg/exec'; // Get from Google Cloud Console
+    
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+    
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        allSongs = data.values.map((row, index) => ({
+            id: index + 1,
+            artist: row[0] || '',
+            title: row[1] || '',
+            plays: parseInt(row[2]) || 0
+        }));
+        
+        renderSongs();
+    } catch (error) {
+        console.error('Error loading tracks:', error);
+        alert('Failed to load tracks. Please refresh.');
+    }
+}
+
+// Call this in DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    loadSongsFromSheet(); // Add this line
+    loadSavedShortlist();
+    // ... rest of code
+});';
     const RANGE = 'Sheet1!A2:C'; // Adjust if your data is on a different sheet/range
     const API_KEY = 'YOUR_GOOGLE_API_KEY'; // Get from Google Cloud Console
     
