@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot 100 Voting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0d9488 0%, #0f766e 50%, #0e7490 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+
+        input[type="email"],
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0d9488;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .counter {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0d9488;
+            margin-bottom: 15px;
+        }
+
+        .selections-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .song-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f9fafb;
+        }
+
+        .song-item:hover {
+            background: #f3f4f6;
+        }
+
+        .song-item.selected {
+            background: #ccfbf1;
+            border-color: #0d9488;
+        }
+
+        .song-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .song-info {
+            flex: 1;
+        }
+
+        .song-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .song-artist {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .song-plays {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            margin-right: 15px;
+        }
+
+        .selected-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #ccfbf1;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .selected-number {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #0d9488;
+            min-width: 30px;
+        }
+
+        .selected-info {
+            flex: 1;
+        }
+
+        .custom-badge {
+            background: #10b981;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0d9488, #0e7490);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #2563eb;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-remove {
+            background: #ef4444;
+            color: white;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        .btn-remove:hover {
+            background: #dc2626;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            color: #991b1b;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            color: #92400e;
+        }
+
+        .custom-form {
+            display: none;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+            margin-top: 20px;
+        }
+
+        .custom-form.show {
+            display: block;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+        }
+
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .success-screen.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 Hot 100 Voting</h1>
+            <p>Vote for your top tracks of the year</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">Voting closes November 30th at midnight</p>
+        </div>
+
+        <div id="mainForm">
+            <!-- Email Section -->
+            <div class="card">
+                <h2>Your Details</h2>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" id="emailInput" placeholder="your@email.com" required>
+                    <div id="votedAlert" class="alert alert-error">
+                        <strong>Already Voted</strong><br>
+                        This email address has already been used to vote. Each person can only vote once.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selections Display -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="margin: 0;"><span id="selectionCounter" class="counter">Your Selections (0/10)</span></h2>
+                    <button class="btn btn-secondary" onclick="saveShortlist()">💾 Save</button>
+                </div>
+                <div id="selectionsList" class="selections-list">
+                    <div class="empty-state">No tracks selected yet. Start building your list below!</div>
+                </div>
+            </div>
+
+            <!-- Available Tracks -->
+            <div class="card">
+                <h2>Available Tracks</h2>
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Search by artist or track name...">
+                </div>
+                <div id="songsList" class="selections-list"></div>
+            </div>
+
+            <!-- Custom Tracks -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="margin: 0;">Add Custom Tracks (<span id="customCount">0</span>/5)</h2>
+                    <button class="btn btn-success" onclick="toggleCustomForm()" id="addCustomBtn">➕ Add Track</button>
+                </div>
+                
+                <div id="customForm" class="custom-form">
+                    <div class="form-group">
+                        <label>Artist Name</label>
+                        <input type="text" id="customArtist" placeholder="Enter artist name">
+                    </div>
+                    <div class="form-group">
+                        <label>Track Title</label>
+                        <input type="text" id="customTitle" placeholder="Enter track title">
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-success" onclick="addCustomSong()" style="flex: 1;">Add to List</button>
+                        <button class="btn" onclick="toggleCustomForm()" style="background: #e5e7eb; color: #374151;">Cancel</button>
+                    </div>
+                </div>
+                
+                <p style="color: #6b7280; font-size: 0.9rem; margin-top: 15px;">
+                    Can't find a track in our list? Add up to 5 of your own selections.
+                </p>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="card">
+                <button class="btn btn-primary" id="submitBtn" onclick="submitVote()" disabled>
+                    📤 Submit Your Vote
+                </button>
+                <p style="text-align: center; color: #6b7280; font-size: 0.9rem; margin-top: 15px;">
+                    One vote per person. Voting closes November 30th at midnight.
+                </p>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div id="successScreen" class="success-screen">
+            <div class="card">
+                <div class="success-icon">❤️</div>
+                <h2 style="font-size: 2.5rem; margin-bottom: 15px;">Vote Submitted!</h2>
+                <p style="font-size: 1.1rem; color: #6b7280; margin-bottom: 10px;">Thank you for participating in the Hot 100.</p>
+                <p style="color: #9ca3af;">Your <span id="totalCount"></span> track(s) have been recorded.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const MAX_SELECTIONS = 10;
+        const MAX_CUSTOM = 5;
+        const GOOGLE_SHEETS_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL'; // Replace with your script URL
+
+        // Sample songs - Replace with your actual track list
+        const allSongs = [
+            { id: 1, artist: "The Midnight", title: "Shadows", plays: 45 },
+            { id: 2, artist: "RÜFÜS DU SOL", title: "Alive", plays: 38 },
+            { id: 3, artist: "Glass Animals", title: "Heat Waves", plays: 52 },
+            { id: 4, artist: "Tame Impala", title: "Borderline", plays: 41 },
+            { id: 5, artist: "King Gizzard & The Lizard Wizard", title: "Omnium Gatherum", plays: 33 },
+            { id: 6, artist: "Parcels", title: "Free", plays: 29 },
+            { id: 7, artist: "POND", title: "Pink Lunettes", plays: 27 },
+            { id: 8, artist: "The Avalanches", title: "Reflecting Light", plays: 31 },
+            { id: 9, artist: "Flume", title: "Say Nothing", plays: 44 },
+            { id: 10, artist: "DMA'S", title: "Fading Like A Picture", plays: 36 }
+        ];
+
+        let selectedSongs = [];
+        let customSongs = [];
+        let currentEmail = '';
+        let hasVoted = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderSongs();
+            loadSavedShortlist();
+            
+            document.getElementById('emailInput').addEventListener('input', handleEmailChange);
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+        });
+
+        function renderSongs(filteredSongs = allSongs) {
+            const container = document.getElementById('songsList');
+            container.innerHTML = filteredSongs.map(song => {
+                const isSelected = selectedSongs.some(s => s.id === song.id);
+                const canSelect = (selectedSongs.length + customSongs.length) < MAX_SELECTIONS || isSelected;
+                
+                return `
+                    <div class="song-item ${isSelected ? 'selected' : ''} ${!canSelect ? 'disabled' : ''}" 
+                         onclick="${canSelect ? `toggleSong(${song.id})` : ''}">
+                        <div class="song-info">
+                            <div class="song-title">${song.title}</div>
+                            <div class="song-artist">${song.artist}</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="song-plays">${song.plays} plays</span>
+                            ${isSelected ? '<span style="font-size: 1.5rem;">❤️</span>' : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleSong(songId) {
+            const song = allSongs.find(s => s.id === songId);
+            const index = selectedSongs.findIndex(s => s.id === songId);
+            
+            if (index >= 0) {
+                selectedSongs.splice(index, 1);
+            } else {
+                const total = selectedSongs.length + customSongs.length;
+                if (total < MAX_SELECTIONS) {
+                    selectedSongs.push(song);
+                }
+            }
+            
+            updateDisplay();
+        }
+
+        function addCustomSong() {
+            const artist = document.getElementById('customArtist').value.trim();
+            const title = document.getElementById('customTitle').value.trim();
+            
+            if (!artist || !title) {
+                alert('Please enter both artist and title');
+                return;
+            }
+            
+            const total = selectedSongs.length + customSongs.length;
+            if (total >= MAX_SELECTIONS || customSongs.length >= MAX_CUSTOM) {
+                alert(`Maximum ${MAX_CUSTOM} custom tracks allowed`);
+                return;
+            }
+            
+            customSongs.push({
+                id: `custom-${Date.now()}`,
+                artist: artist,
+                title: title,
+                custom: true
+            });
+            
+            document.getElementById('customArtist').value = '';
+            document.getElementById('customTitle').value = '';
+            toggleCustomForm();
+            updateDisplay();
+        }
+
+        function removeSelection(id) {
+            if (id.toString().startsWith('custom-')) {
+                customSongs = customSongs.filter(s => s.id !== id);
+            } else {
+                selectedSongs = selectedSongs.filter(s => s.id !== id);
+            }
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const total = selectedSongs.length + customSongs.length;
+            
+            // Update counter
+            document.getElementById('selectionCounter').textContent = `Your Selections (${total}/${MAX_SELECTIONS})`;
+            document.getElementById('customCount').textContent = customSongs.length;
+            
+            // Update selections list
+            const container = document.getElementById('selectionsList');
+            if (total === 0) {
+                container.innerHTML = '<div class="empty-state">No tracks selected yet. Start building your list below!</div>';
+            } else {
+                const allSelected = [...selectedSongs, ...customSongs];
+                container.innerHTML = allSelected.map((song, idx) => `
+                    <div class="selected-item">
+                        <span class="selected-number">${idx + 1}</span>
+                        <div class="selected-info">
+                            <div class="song-title">${song.title}</div>
+                            <div class="song-artist">${song.artist} ${song.custom ? '<span class="custom-badge">Custom</span>' : ''}</div>
+                        </div>
+                        <button class="btn btn-remove" onclick="removeSelection('${song.id}')">✕</button>
+                    </div>
+                `).join('');
+            }
+            
+            // Refresh songs display
+            const searchTerm = document.getElementById('searchInput').value;
+            handleSearch({ target: { value: searchTerm } });
+            
+            // Update submit button
+            updateSubmitButton();
+        }
+
+        function handleSearch(e) {
+            const term = e.target.value.toLowerCase();
+            const filtered = term ? 
+                allSongs.filter(s => 
+                    s.artist.toLowerCase().includes(term) || 
+                    s.title.toLowerCase().includes(term)
+                ) : allSongs;
+            renderSongs(filtered);
+        }
+
+        function handleEmailChange(e) {
+            currentEmail = e.target.value.trim();
+            if (currentEmail.includes('@')) {
+                checkIfVoted();
+            } else {
+                hasVoted = false;
+                document.getElementById('votedAlert').classList.remove('show');
+            }
+            updateSubmitButton();
+        }
+
+        async function checkIfVoted() {
+            // Check localStorage first
+            const votes = JSON.parse(localStorage.getItem('votes') || '[]');
+            hasVoted = votes.includes(currentEmail.toLowerCase());
+            
+            if (hasVoted) {
+                document.getElementById('votedAlert').classList.add('show');
+            } else {
+                document.getElementById('votedAlert').classList.remove('show');
+            }
+            
+            updateSubmitButton();
+        }
+
+        function updateSubmitButton() {
+            const total = selectedSongs.length + customSongs.length;
+            const btn = document.getElementById('submitBtn');
+            const canSubmit = currentEmail.includes('@') && total > 0 && !hasVoted;
+            
+            btn.disabled = !canSubmit;
+        }
+
+        function toggleCustomForm() {
+            const form = document.getElementById('customForm');
+            form.classList.toggle('show');
+        }
+
+        function saveShortlist() {
+            const data = {
+                email: currentEmail,
+                selectedSongs: selectedSongs,
+                customSongs: customSongs,
+                savedAt: new Date().toISOString()
+            };
+            localStorage.setItem('voting-shortlist', JSON.stringify(data));
+            alert('Shortlist saved! Your selections will be here when you return.');
+        }
+
+        function loadSavedShortlist() {
+            const saved = localStorage.getItem('voting-shortlist');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if (confirm('You have a saved shortlist. Would you like to restore it?')) {
+                        currentEmail = data.email || '';
+                        selectedSongs = data.selectedSongs || [];
+                        customSongs = data.customSongs || [];
+                        document.getElementById('emailInput').value = currentEmail;
+                        updateDisplay();
+                        if (currentEmail) handleEmailChange({ target: { value: currentEmail } });
+                    }
+                } catch (e) {
+                    console.error('Error loading shortlist:', e);
+                }
+            }
+        }
+
+        async function submitVote() {
+            if (hasVoted) {
+                alert('You have already voted with this email address');
+                return;
+            }
+
+            const total = selectedSongs.length + customSongs.length;
+            const voteData = {
+                email: currentEmail.toLowerCase(),
+                timestamp: new Date().toISOString(),
+                totalCount: total,
+                selectedSongs: selectedSongs.map(s => `${s.artist} - ${s.title}`),
+                customSongs: customSongs.map(s => `${s.artist} - ${s.title}`)
+            };
+
+            try {
+                // Save to localStorage (for demo)
+                const votes = JSON.parse(localStorage.getItem('votes') || '[]');
+                votes.push(currentEmail.toLowerCase());
+                localStorage.setItem('votes', JSON.stringify(votes));
+
+                // Save vote data
+                const allVotes = JSON.parse(localStorage.getItem('allVotes') || '[]');
+                allVotes.push(voteData);
+                localStorage.setItem('allVotes', JSON.stringify(allVotes));
+
+                // If you have Google Sheets setup:
+                // await fetch(GOOGLE_SHEETS_URL, {
+                //     method: 'POST',
+                //     mode: 'no-cors',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify(voteData)
+                // });
+
+                // Show success
+                document.getElementById('totalCount').textContent = total;
+                document.getElementById('mainForm').style.display = 'none';
+                document.getElementById('successScreen').classList.add('show');
+
+                // Clear shortlist
+                localStorage.removeItem('voting-shortlist');
+
+            } catch (error) {
+                console.error('Error submitting vote:', error);
+                alert('Failed to submit vote. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
