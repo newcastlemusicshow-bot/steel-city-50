@@ -425,18 +425,40 @@
         const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxzWGzTOm7jpUeoUO2NJtS5nzUoGUhqCx2_v2T5iKiDgG5VyQx8_iF0_nJYRBxa2Hh8Gg/exec'; // Replace with your script URL
 
         // Sample songs - Replace with your actual track list
-        const allSongs = [
-            { id: 1, artist: "The Midnight", title: "Shadows", plays: 45 },
-            { id: 2, artist: "RÜFÜS DU SOL", title: "Alive", plays: 38 },
-            { id: 3, artist: "Glass Animals", title: "Heat Waves", plays: 52 },
-            { id: 4, artist: "Tame Impala", title: "Borderline", plays: 41 },
-            { id: 5, artist: "King Gizzard & The Lizard Wizard", title: "Omnium Gatherum", plays: 33 },
-            { id: 6, artist: "Parcels", title: "Free", plays: 29 },
-            { id: 7, artist: "POND", title: "Pink Lunettes", plays: 27 },
-            { id: 8, artist: "The Avalanches", title: "Reflecting Light", plays: 31 },
-            { id: 9, artist: "Flume", title: "Say Nothing", plays: 44 },
-            { id: 10, artist: "DMA'S", title: "Fading Like A Picture", plays: 36 }
-        ];
+        let allSongs = [];
+
+// Load songs from Google Sheets on page load
+async function loadSongsFromSheet() {
+    const SHEET_ID = 'YOUR_SHEET_ID_HERE';
+    const RANGE = 'Sheet1!A2:C'; // Adjust if your data is on a different sheet/range
+    const API_KEY = 'YOUR_GOOGLE_API_KEY'; // Get from Google Cloud Console
+    
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+    
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        allSongs = data.values.map((row, index) => ({
+            id: index + 1,
+            artist: row[0] || '',
+            title: row[1] || '',
+            plays: parseInt(row[2]) || 0
+        }));
+        
+        renderSongs();
+    } catch (error) {
+        console.error('Error loading tracks:', error);
+        alert('Failed to load tracks. Please refresh.');
+    }
+}
+
+// Call this in DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    loadSongsFromSheet(); // Add this line
+    loadSavedShortlist();
+    // ... rest of code
+});
 
         let selectedSongs = [];
         let customSongs = [];
