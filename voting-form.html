@@ -549,7 +549,7 @@
                     📤 Submit Your Vote
                 </button>
                 <p style="text-align: center; color: #6b7280; font-size: 0.9rem; margin-top: 15px;">
-                    One vote per person. Select between 5-10 tracks. Voting closes December 28th at midnight.
+                    One vote per person. Select between 5-10 tracks. Voting closes November 30th at midnight.
                 </p>
             </div>
         </div>
@@ -974,10 +974,12 @@
         }
 
         function removeSelection(id) {
-            if (id.toString().startsWith('custom-')) {
+            // Check if it's a custom song (string ID starting with 'custom-')
+            if (typeof id === 'string' && id.startsWith('custom-')) {
                 customSongs = customSongs.filter(s => s.id !== id);
             } else {
-                selectedSongs = selectedSongs.filter(s => s.id !== id);
+                // It's a regular song (numeric ID)
+                selectedSongs = selectedSongs.filter(s => s.id !== parseInt(id));
             }
             updateDisplay();
         }
@@ -1002,7 +1004,7 @@
                             <div class="song-title">${song.title}</div>
                             <div class="song-artist">${song.artist} ${song.custom ? '<span class="custom-badge">Custom</span>' : ''}</div>
                         </div>
-                        <button class="btn btn-remove" onclick="removeSelection('${song.id}')">✕</button>
+                        <button class="btn btn-remove" onclick="removeSelection(${song.custom ? "'" + song.id + "'" : song.id})">✕</button>
                     </div>
                 `).join('');
             }
