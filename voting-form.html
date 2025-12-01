@@ -1,87 +1,4 @@
-// Steel City 50 2025 Track List
-        let allSongs = [
-            { id: 1, artist: "198archie", title: "So Easy" },
-            { id: 2, artist: "198archie", title: "Tracing Thru Sand" },
-            { id: 3, artist: "198archie;Banjo Ulysses", title: "A Day in the Life" },
-            { id: 4, artist: "4K Death Dream", title: "iCarly" },
-            { id: 5, artist: "4K Death Dream;Craterface", title: "Acid Drops" },
-            { id: 6, artist: "Allan Parmenter;Adam Miller", title: "Smoky Bar" },
-            { id: 7, artist: "Arietta", title: "Bittersweet" },
-            { id: 8, artist: "ASCN", title: "A Waking Tomorow" },
-            { id: 9, artist: "Aunty Alan", title: "freEzer" },
-            { id: 10, artist: "Aunty Alan", title: "jasmine's flower" },
-            { id: 11, artist: "Baby Bruh", title: "BBTV-1" },
-            { id: 12, artist: "Baby Bruh", title: "LOVE-LETTER 2 NEWCASTLE" },
-            { id: 13, artist: "Baby Bruh", title: "sAdevinyl:)" },
-            { id: 14, artist: "Baby Bruh", title: "TRICKS + SKILLS" },
-            { id: 15, artist: "Baby Bruh", title: "ANDREW AND DANIEL" },
-            { id: 16, artist: "Baby Bruh;Dobbie", title: "rock on baby bruh, follow your heart until the bitter end (RABBLEROUSIN') - Special Version" },
-            { id: 17, artist: "Baby Bruh;Dobbie", title: "letterZ (lift0ff)" },
-            { id: 18, artist: "Baby Bruh;Ruumi", title: "SEIKO BOYZ" },
-            { id: 19, artist: "Baby Bruh;sinkholecrim;Banjo Ulysses;The Moc", title: "i lost myself and realised it was supposed to happen" },
-            { id: 20, artist: "Banjo Ulysses", title: "Boring" },
-            { id: 21, artist: "Banjo Ulysses", title: "Jet Set" },
-            { id: 22, artist: "Banjo Ulysses", title: "Sky" },
-            { id: 23, artist: "Banjo Ulysses", title: "Get Lost" },
-            { id: 24, artist: "Banjo Ulysses", title: "The Biggest Flex Anyone Will Ever Have Is Dying" },
-            { id: 25, artist: "Banjo Ulysses", title: "Window" },
-            { id: 26, artist: "Banjo Ulysses", title: "NYE" },
-            { id: 27, artist: "Beep Test", title: "Get It Right" },
-            { id: 28, artist: "Beep Test", title: "Alone" },
-            { id: 29, artist: "Boudicca", title: "Serpentine" },
-            { id: 30, artist: "Boudicca", title: "Boys in Town" },
-            { id: 31, artist: "c_h_l__o_e", title: "neural" },
-            { id: 32, artist: "c_h_l__o_e", title: "Wahluu" },
-            { id: 33, artist: "C.O.B.B.", title: "icky gooey sticky" },
-            { id: 34, artist: "Cacti Moon", title: "The Murder" },
-            { id: 35, artist: "Camino Gold", title: "Sweet Pea" },
-            { id: 36, artist: "Carnivara", title: "CULDESAC" },
-            { id: 37, artist: "Carnivara", title: "Rhumba" },
-            { id: 38, artist: "Caster", title: "To See Is to Rot" },
-            { id: 39, artist: "CATPISS", title: "Beauty Regime" },
-            { id: 40, artist: "CATPISS", title: "Coffin Nails" },
-            { id: 41, artist: "CENTRAL", title: "masks" },
-            { id: 42, artist: "CENTRAL", title: "Visions" },
-            { id: 43, artist: "CENTRAL", title: "I.D" },
-            { id: 44, artist: "CENTRAL", title: "Solid" },
-            { id: 45, artist: "Charlie Farmer", title: "AGE" },
-            { id: 46, artist: "Cheap Delusions", title: "In My Dreams" },
-            { id: 47, artist: "CLUTCH KICK", title: "DISRESPECTED" },
-            { id: 48, artist: "Collector", title: "Brick Silo" },
-            { id: 49, artist: "Conflikt", title: "WEIRDO" },
-            { id: 50, artist: "Cormac Grant", title: "Montréal" },
-            { id: 51, artist: "Cormac Grant", title: "Threadbare" },
-            { id: 52, artist: "Cutthroat", title: "Forever Nothing" },
-            { id: 53, artist: "Daisy Chain", title: "Stranger In The Skin" },
-            { id: 54, artist: "Daisy Chain", title: "Pig House" },
-            { id: 55, artist: "Dane Tutty", title: "Happy" },
-            { id: 56, artist: "Dane Tutty", title: "Not The Date" },
-            { id: 57, artist: "Dane Tutty", title: "What a horrible mess" },
-            { id: 58, artist: "dayhaze", title: "break down" },
-            { id: 59, artist: "Dead Mall", title: "GASOLINE" },
-            { id: 60, artist: "Dead Mall", title: "PROPERTY DAMAGE" },
-            { id: 61, artist: "Dead Mall", title: "EVICTION NIGHT" },
-            { id: 62, artist: "Dead Mall", title: "100% PURE POISON" },
-            { id: 63, artist: "Dead Mall", title: "CORRIDOR VIOLENCE" },
-            { id: 64, artist: "Dead Mall", title: "SUPERLIMINAL" },
-            { id: 65, artist: "Deadshowws", title: "I Should" },
-            { id: 66, artist: "Deadshowws", title: "Summer Rust" },
-            { id: 67, artist: "Deadshowws", title: "Wallflower" },
-            { id: 68, artist: "Death Dance", title: "Disintegration" },
-            { id: 69, artist: "Dipodium", title: "Coagulate" },
-            { id: 70, artist: "Discount Code", title: "Doomed Existence" },
-            { id: 71, artist: "doris", title: "Every Hound" },
-            { id: 72, artist: "Dr. Dankenstein", title: "Runnin Around Town" },
-            { id: 73, artist: "dust", title: "Drawbacks" },
-            { id: 74, artist: "dust", title: "Alastair" },
-            { id: 75, artist: "dust", title: "Swamped" },
-            { id: 76, artist: "e4444e", title: "Liberation" },
-            { id: 77, artist: "e4444e", title: "Crutch" },
-            { id: 78, artist: "e4444e", title: "Meaning" },
-            { id: 79, artist: "e4444e", title: "Push the Dove" },
-            { id: 80, artist: "Elestial", title: "The One Mistake" },
-            { id: 81, artist: "False Persona;Mall Grab", title: "Crazy" },
-            { id: 82, artist: "Fatal Excuse", title: "LETHAL DIVERSION" },<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -152,7 +69,8 @@
         }
 
         input[type="email"],
-        input[type="text"] {
+        input[type="text"],
+        select {
             width: 100%;
             padding: 12px;
             border: 2px solid #e5e7eb;
@@ -161,9 +79,15 @@
             transition: border-color 0.3s;
         }
 
-        input:focus {
+        input:focus,
+        select:focus {
             outline: none;
             border-color: #0d9488;
+        }
+
+        select {
+            background-color: white;
+            cursor: pointer;
         }
 
         .search-box {
@@ -392,6 +316,93 @@
             font-size: 3rem;
         }
 
+        .vote-card {
+            background: linear-gradient(135deg, #0d9488 0%, #0f766e 50%, #0e7490 100%);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 20px auto;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .vote-card h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .vote-card .subtitle {
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .vote-list {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .vote-list-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .vote-list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .vote-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-width: 35px;
+            color: #ccfbf1;
+        }
+
+        .vote-track {
+            flex: 1;
+        }
+
+        .vote-track-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+
+        .vote-track-artist {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .download-btn {
+            background: white;
+            color: #0d9488;
+            padding: 14px 28px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px auto 0;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
         .loading-state {
             text-align: center;
             padding: 40px;
@@ -421,6 +432,30 @@
             <!-- Email Section -->
             <div class="card">
                 <h2>Your Details</h2>
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="nameInput" placeholder="Your name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Postcode *</label>
+                    <input type="text" id="postcodeInput" placeholder="e.g. 2300" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Age Range *</label>
+                    <select id="ageRangeSelect" required>
+                        <option value="">Select age range</option>
+                        <option value="<18">&lt;18</option>
+                        <option value="18-24">18-24</option>
+                        <option value="25-34">25-34</option>
+                        <option value="35-44">35-44</option>
+                        <option value="45-54">45-54</option>
+                        <option value="55-64">55-64</option>
+                        <option value="65+">65+</option>
+                    </select>
+                </div>
+                
                 <div class="form-group">
                     <label>Email Address *</label>
                     <input type="email" id="emailInput" placeholder="your@email.com" required>
@@ -498,7 +533,22 @@
                 <div class="success-icon">❤️</div>
                 <h2 style="font-size: 2.5rem; margin-bottom: 15px;">Vote Submitted!</h2>
                 <p style="font-size: 1.1rem; color: #6b7280; margin-bottom: 10px;">Thank you for participating in Steel City 50.</p>
-                <p style="color: #9ca3af;">Your <span id="totalCount"></span> track(s) have been recorded.</p>
+                <p style="color: #9ca3af; margin-bottom: 30px;">Your <span id="totalCount"></span> track(s) have been recorded.</p>
+                
+                <!-- Vote Card for Image -->
+                <div id="voteCard" class="vote-card">
+                    <h3>🎵 My Steel City 50 Votes</h3>
+                    <div class="subtitle">2025</div>
+                    <div id="voteListForImage" class="vote-list"></div>
+                    <div style="text-align: center; margin-top: 20px; opacity: 0.8; font-size: 0.9rem;">
+                        steelcity50.com
+                    </div>
+                </div>
+
+                <button class="download-btn" onclick="downloadVoteImage()">
+                    <span style="font-size: 1.3rem;">📸</span>
+                    Save as Image
+                </button>
             </div>
         </div>
     </div>
@@ -512,7 +562,7 @@
         // 1. VOTES_SCRIPT_URL - Your NEW Votes Sheet's Apps Script URL (for writing votes)
         // 2. TRACKS_SHEET_ID - Your existing Tracks Sheet ID (for reading tracks)
         
-        const VOTES_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQqsaIwPIgyUfLL8PGXsqVk7x3JPS7nMW6m7iIN8U74g_vyr8xRwmKthBzSBO7SESQ/exec'; // Replace with URL from Step 2
+        const VOTES_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUoMUwgmdFBei6PeNbYu2W593FOVgvlg-AbM96gitDe9avKGxa64fEFPrqq049TtSO/exec'; // Replace with URL from Step 2
         const TRACKS_SHEET_ID = '1bBkfFxw5I2aNVxWTknl6XSYHJj6nqQD5pKk_MAXQ368'; // Your tracks sheet (DO NOT CHANGE)
 
         // Steel City 50 2025 Track List
@@ -763,6 +813,9 @@
         
         let selectedSongs = [];
         let customSongs = [];
+        let currentName = '';
+        let currentPostcode = '';
+        let currentAgeRange = '';
         let currentEmail = '';
         let hasVoted = false;
 
@@ -771,6 +824,9 @@
             loadSongsFromSheet();
             loadSavedShortlist();
             
+            document.getElementById('nameInput').addEventListener('input', handleFormChange);
+            document.getElementById('postcodeInput').addEventListener('input', handleFormChange);
+            document.getElementById('ageRangeSelect').addEventListener('change', handleFormChange);
             document.getElementById('emailInput').addEventListener('input', handleEmailChange);
             document.getElementById('searchInput').addEventListener('input', handleSearch);
         });
@@ -941,6 +997,13 @@
             renderSongs(filtered);
         }
 
+        function handleFormChange(e) {
+            currentName = document.getElementById('nameInput').value.trim();
+            currentPostcode = document.getElementById('postcodeInput').value.trim();
+            currentAgeRange = document.getElementById('ageRangeSelect').value;
+            updateSubmitButton();
+        }
+
         function handleEmailChange(e) {
             currentEmail = e.target.value.trim();
             if (currentEmail.includes('@')) {
@@ -969,7 +1032,12 @@
         function updateSubmitButton() {
             const total = selectedSongs.length + customSongs.length;
             const btn = document.getElementById('submitBtn');
-            const canSubmit = currentEmail.includes('@') && total > 0 && !hasVoted;
+            const canSubmit = currentName && 
+                             currentPostcode && 
+                             currentAgeRange && 
+                             currentEmail.includes('@') && 
+                             total > 0 && 
+                             !hasVoted;
             
             btn.disabled = !canSubmit;
         }
@@ -981,6 +1049,9 @@
 
         function saveShortlist() {
             const data = {
+                name: currentName,
+                postcode: currentPostcode,
+                ageRange: currentAgeRange,
                 email: currentEmail,
                 selectedSongs: selectedSongs,
                 customSongs: customSongs,
@@ -996,10 +1067,18 @@
                 try {
                     const data = JSON.parse(saved);
                     if (confirm('You have a saved shortlist. Would you like to restore it?')) {
+                        currentName = data.name || '';
+                        currentPostcode = data.postcode || '';
+                        currentAgeRange = data.ageRange || '';
                         currentEmail = data.email || '';
                         selectedSongs = data.selectedSongs || [];
                         customSongs = data.customSongs || [];
+                        
+                        document.getElementById('nameInput').value = currentName;
+                        document.getElementById('postcodeInput').value = currentPostcode;
+                        document.getElementById('ageRangeSelect').value = currentAgeRange;
                         document.getElementById('emailInput').value = currentEmail;
+                        
                         updateDisplay();
                         if (currentEmail) handleEmailChange({ target: { value: currentEmail } });
                     }
@@ -1017,6 +1096,9 @@
 
             const total = selectedSongs.length + customSongs.length;
             const voteData = {
+                name: currentName,
+                postcode: currentPostcode,
+                ageRange: currentAgeRange,
                 email: currentEmail.toLowerCase(),
                 timestamp: new Date().toISOString(),
                 totalCount: total,
@@ -1044,6 +1126,20 @@
 
                 // Show success
                 document.getElementById('totalCount').textContent = total;
+                
+                // Populate vote list for image
+                const allVotedSongs = [...selectedSongs, ...customSongs];
+                const voteListHTML = allVotedSongs.map((song, idx) => `
+                    <div class="vote-list-item">
+                        <div class="vote-number">${idx + 1}</div>
+                        <div class="vote-track">
+                            <div class="vote-track-title">${song.title}</div>
+                            <div class="vote-track-artist">${song.artist}</div>
+                        </div>
+                    </div>
+                `).join('');
+                document.getElementById('voteListForImage').innerHTML = voteListHTML;
+                
                 document.getElementById('mainForm').style.display = 'none';
                 document.getElementById('successScreen').classList.add('show');
 
@@ -1053,6 +1149,35 @@
             } catch (error) {
                 console.error('Error submitting vote:', error);
                 alert('Failed to submit vote. Please try again.');
+            }
+        }
+
+        // Download vote as image
+        async function downloadVoteImage() {
+            const voteCard = document.getElementById('voteCard');
+            
+            try {
+                // Use html2canvas library (loaded from CDN)
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+                document.head.appendChild(script);
+                
+                script.onload = async function() {
+                    const canvas = await html2canvas(voteCard, {
+                        backgroundColor: null,
+                        scale: 2, // Higher quality
+                        logging: false
+                    });
+                    
+                    // Convert to image and download
+                    const link = document.createElement('a');
+                    link.download = 'my-steel-city-50-votes.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                };
+            } catch (error) {
+                console.error('Error generating image:', error);
+                alert('Failed to generate image. Please try again.');
             }
         }
     </script>
