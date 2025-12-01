@@ -424,8 +424,35 @@
     <div class="container">
         <div class="header">
             <h1>🎵 Steel City 50 2025 Voting</h1>
-            <p>Vote for your top tracks of the year</p>
-            <p style="font-size: 0.9rem; margin-top: 10px;">Voting closes November 30th at midnight</p>
+            <div style="max-width: 800px; margin: 0 auto; text-align: left; background: rgba(255,255,255,0.1); padding: 25px; border-radius: 12px; margin-top: 20px;">
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px;">
+                    It's that time of year where we have to make the hard decision and pick our top 10 tracks of the 2025.
+                </p>
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px;">
+                    The past 12 months have been filled with top notch releases from all of our favourite local artists. Some were first timers and others hiatus ending drops, no matter the circumstance we love them all!
+                </p>
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 15px;">
+                    So please choose carefully and don't forget to share your picks!
+                </p>
+                <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px;">
+                    The results will be broadcast on New Years Eve 12PM-4PM on newcastlemusicshow.com
+                </p>
+                
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <p style="font-size: 1rem; font-weight: 600; margin-bottom: 12px;">Voting Guidelines:</p>
+                    <ul style="font-size: 0.95rem; line-height: 1.7; padding-left: 20px;">
+                        <li>Only songs released from December 1st 2024 to November 30th 2025 are eligible to be voted for</li>
+                        <li>Artist/at least half of the band must either:
+                            <ul style="margin-top: 8px; margin-bottom: 8px;">
+                                <li>A) reside within the greater Newcastle, Hunter, Central Coast region currently or</li>
+                                <li>B) be from the Greater Newcastle, Hunter, Central Coast region</li>
+                            </ul>
+                        </li>
+                        <li>A minimum of 5, and maximum of 10 tracks may be voted for</li>
+                        <li>If the track/s you want to vote for isn't on the list, add it/them via the 'add tracks' section.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div id="mainForm">
@@ -522,7 +549,7 @@
                     📤 Submit Your Vote
                 </button>
                 <p style="text-align: center; color: #6b7280; font-size: 0.9rem; margin-top: 15px;">
-                    One vote per person. Voting closes November 30th at midnight.
+                    One vote per person. Select between 5-10 tracks. Voting closes November 30th at midnight.
                 </p>
             </div>
         </div>
@@ -557,12 +584,13 @@
         // Configuration
         const MAX_SELECTIONS = 10;
         const MAX_CUSTOM = 5;
+        const MIN_SELECTIONS = 5;
         
         // IMPORTANT: Use TWO different sheets!
         // 1. VOTES_SCRIPT_URL - Your NEW Votes Sheet's Apps Script URL (for writing votes)
         // 2. TRACKS_SHEET_ID - Your existing Tracks Sheet ID (for reading tracks)
         
-        const VOTES_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUoMUwgmdFBei6PeNbYu2W593FOVgvlg-AbM96gitDe9avKGxa64fEFPrqq049TtSO/exec'; // Replace with URL from Step 2
+        const VOTES_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxajf0SGBzX2mElPkCGd7wbt4Prvq6bQ1NGloUpY8luE9Gv3rsK3RYeyeS5j9UpCfRB/exec'; // Replace with URL from Step 2
         const TRACKS_SHEET_ID = '1bBkfFxw5I2aNVxWTknl6XSYHJj6nqQD5pKk_MAXQ368'; // Your tracks sheet (DO NOT CHANGE)
 
         // Steel City 50 2025 Track List
@@ -1036,7 +1064,8 @@
                              currentPostcode && 
                              currentAgeRange && 
                              currentEmail.includes('@') && 
-                             total > 0 && 
+                             total >= MIN_SELECTIONS && 
+                             total <= MAX_SELECTIONS && 
                              !hasVoted;
             
             btn.disabled = !canSubmit;
@@ -1095,6 +1124,17 @@
             }
 
             const total = selectedSongs.length + customSongs.length;
+            
+            if (total < MIN_SELECTIONS) {
+                alert(`Please select at least ${MIN_SELECTIONS} tracks to submit your vote.`);
+                return;
+            }
+            
+            if (total > MAX_SELECTIONS) {
+                alert(`Please select no more than ${MAX_SELECTIONS} tracks.`);
+                return;
+            }
+
             const voteData = {
                 name: currentName,
                 postcode: currentPostcode,
@@ -1103,11 +1143,17 @@
                 timestamp: new Date().toISOString(),
                 totalCount: total,
                 selectedSongs: selectedSongs.map(s => `${s.artist} - ${s.title}`),
-                customSongs: customSongs.map(s => `${s.artist} - ${s.title}`)
+                customSongs: customSongs.map(s => `${s.artist} - ${s.title}`),
+                allSongs: [...selectedSongs, ...customSongs].map(s => `${s.artist} - ${s.title}`)
             };
 
             try {
-                // Save to localStorage (for demo/backup)
+                // Disable submit button while processing
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = true;
+                submitBtn.textContent = '⏳ Submitting...';
+
+                // Save to localStorage (for backup/offline check)
                 const votes = JSON.parse(localStorage.getItem('votes') || '[]');
                 votes.push(currentEmail.toLowerCase());
                 localStorage.setItem('votes', JSON.stringify(votes));
@@ -1117,12 +1163,32 @@
                 localStorage.setItem('allVotes', JSON.stringify(allVotes));
 
                 // Submit to Google Sheets (VOTES sheet)
-                await fetch(VOTES_SCRIPT_URL, {
+                const response = await fetch(VOTES_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(voteData)
                 });
+
+                // Try to parse response (Apps Script returns text)
+                let result;
+                try {
+                    const text = await response.text();
+                    result = JSON.parse(text);
+                } catch (parseError) {
+                    // If parsing fails, assume success (mode: 'no-cors' doesn't return readable response)
+                    result = { success: true };
+                }
+
+                // Check if submission was successful
+                if (result.success === false) {
+                    // Server rejected the vote (likely duplicate email)
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '📤 Submit Your Vote';
+                    alert(result.error || 'This email has already been used to vote. Each person can only vote once.');
+                    hasVoted = true;
+                    document.getElementById('votedAlert').classList.add('show');
+                    return;
+                }
 
                 // Show success
                 document.getElementById('totalCount').textContent = total;
@@ -1148,7 +1214,10 @@
 
             } catch (error) {
                 console.error('Error submitting vote:', error);
-                alert('Failed to submit vote. Please try again.');
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📤 Submit Your Vote';
+                alert('Failed to submit vote. Please check your internet connection and try again.');
             }
         }
 
