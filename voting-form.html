@@ -315,6 +315,12 @@
             font-size: 3rem;
         }
 
+        .loading-state {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2rem;
@@ -329,7 +335,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🎵 Hot 100 Voting</h1>
+            <h1>🎵 Steel City 50 2025 Voting</h1>
             <p>Vote for your top tracks of the year</p>
             <p style="font-size: 0.9rem; margin-top: 10px;">Voting closes November 30th at midnight</p>
         </div>
@@ -366,7 +372,9 @@
                     <span class="search-icon">🔍</span>
                     <input type="text" id="searchInput" placeholder="Search by artist or track name...">
                 </div>
-                <div id="songsList" class="selections-list"></div>
+                <div id="songsList" class="selections-list">
+                    <div class="loading-state">Loading tracks...</div>
+                </div>
             </div>
 
             <!-- Custom Tracks -->
@@ -412,7 +420,7 @@
             <div class="card">
                 <div class="success-icon">❤️</div>
                 <h2 style="font-size: 2.5rem; margin-bottom: 15px;">Vote Submitted!</h2>
-                <p style="font-size: 1.1rem; color: #6b7280; margin-bottom: 10px;">Thank you for participating in the Hot 100.</p>
+                <p style="font-size: 1.1rem; color: #6b7280; margin-bottom: 10px;">Thank you for participating in Steel City 50.</p>
                 <p style="color: #9ca3af;">Your <span id="totalCount"></span> track(s) have been recorded.</p>
             </div>
         </div>
@@ -422,77 +430,259 @@
         // Configuration
         const MAX_SELECTIONS = 10;
         const MAX_CUSTOM = 5;
-        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxzWGzTOm7jpUeoUO2NJtS5nzUoGUhqCx2_v2T5iKiDgG5VyQx8_iF0_nJYRBxa2Hh8Gg/exec'; // Replace with your script URL
-
-        // Sample songs - Replace with your actual track list
-        let allSongs = [];
-
-// Load songs from Google Sheets on page load
-async function loadSongsFromSheet() {
-    const SHEET_ID = 'Ylet allSongs = [];
-
-// Load songs from Google Sheets on page load
-async function loadSongsFromSheet() {
-    const SHEET_ID = '1bBkfFxw5I2aNVxWTknl6XSYHJj6nqQD5pKk_MAXQ368';
-    const RANGE = 'Sheet1!A2:C'; // Adjust if your data is on a different sheet/range
-    const API_KEY = 'https://script.google.com/macros/s/AKfycbxzWGzTOm7jpUeoUO2NJtS5nzUoGUhqCx2_v2T5iKiDgG5VyQx8_iF0_nJYRBxa2Hh8Gg/exec'; // Get from Google Cloud Console
-    
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
-    
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
         
-        allSongs = data.values.map((row, index) => ({
-            id: index + 1,
-            artist: row[0] || '',
-            title: row[1] || '',
-            plays: parseInt(row[2]) || 0
-        }));
+        // IMPORTANT: Use TWO different sheets!
+        // 1. VOTES_SCRIPT_URL - Your NEW Votes Sheet's Apps Script URL (for writing votes)
+        // 2. TRACKS_SHEET_ID - Your existing Tracks Sheet ID (for reading tracks)
         
-        renderSongs();
-    } catch (error) {
-        console.error('Error loading tracks:', error);
-        alert('Failed to load tracks. Please refresh.');
-    }
-}
+        const VOTES_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQqsaIwPIgyUfLL8PGXsqVk7x3JPS7nMW6m7iIN8U74g_vyr8xRwmKthBzSBO7SESQ/exec'; // Replace with URL from Step 2
+        const TRACKS_SHEET_ID = '1bBkfFxw5I2aNVxWTknl6XSYHJj6nqQD5pKk_MAXQ368'; // Your tracks sheet (DO NOT CHANGE)
 
-// Call this in DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function() {
-    loadSongsFromSheet(); // Add this line
-    loadSavedShortlist();
-    // ... rest of code
-});';
-    const RANGE = 'Sheet1!A2:C'; // Adjust if your data is on a different sheet/range
-    const API_KEY = 'YOUR_GOOGLE_API_KEY'; // Get from Google Cloud Console
-    
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
-    
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
+        // Steel City 50 2025 Track List
+        let allSongs = [
+            { id: 1, artist: "198archie", title: "So Easy", plays: 0 },
+            { id: 2, artist: "198archie", title: "Tracing Thru Sand", plays: 0 },
+            { id: 3, artist: "198archie;Banjo Ulysses", title: "A Day in the Life", plays: 0 },
+            { id: 4, artist: "4K Death Dream", title: "iCarly", plays: 0 },
+            { id: 5, artist: "4K Death Dream;Craterface", title: "Acid Drops", plays: 0 },
+            { id: 6, artist: "Allan Parmenter;Adam Miller", title: "Smoky Bar", plays: 0 },
+            { id: 7, artist: "Arietta", title: "Bittersweet", plays: 0 },
+            { id: 8, artist: "ASCN", title: "A Waking Tomorow", plays: 0 },
+            { id: 9, artist: "Aunty Alan", title: "freEzer", plays: 0 },
+            { id: 10, artist: "Aunty Alan", title: "jasmine's flower", plays: 0 },
+            { id: 11, artist: "Baby Bruh", title: "BBTV-1", plays: 0 },
+            { id: 12, artist: "Baby Bruh", title: "LOVE-LETTER 2 NEWCASTLE", plays: 0 },
+            { id: 13, artist: "Baby Bruh", title: "sAdevinyl:)", plays: 0 },
+            { id: 14, artist: "Baby Bruh", title: "TRICKS + SKILLS", plays: 0 },
+            { id: 15, artist: "Baby Bruh", title: "ANDREW AND DANIEL", plays: 0 },
+            { id: 16, artist: "Baby Bruh;Dobbie", title: "rock on baby bruh, follow your heart until the bitter end (RABBLEROUSIN') - Special Version", plays: 0 },
+            { id: 17, artist: "Baby Bruh;Dobbie", title: "letterZ (lift0ff)", plays: 0 },
+            { id: 18, artist: "Baby Bruh;Ruumi", title: "SEIKO BOYZ", plays: 0 },
+            { id: 19, artist: "Baby Bruh;sinkholecrim;Banjo Ulysses;The Moc", title: "i lost myself and realised it was supposed to happen", plays: 0 },
+            { id: 20, artist: "Banjo Ulysses", title: "Boring", plays: 0 },
+            { id: 21, artist: "Banjo Ulysses", title: "Jet Set", plays: 0 },
+            { id: 22, artist: "Banjo Ulysses", title: "Sky", plays: 0 },
+            { id: 23, artist: "Banjo Ulysses", title: "Get Lost", plays: 0 },
+            { id: 24, artist: "Banjo Ulysses", title: "The Biggest Flex Anyone Will Ever Have Is Dying", plays: 0 },
+            { id: 25, artist: "Banjo Ulysses", title: "Window", plays: 0 },
+            { id: 26, artist: "Banjo Ulysses", title: "NYE", plays: 0 },
+            { id: 27, artist: "Beep Test", title: "Get It Right", plays: 0 },
+            { id: 28, artist: "Beep Test", title: "Alone", plays: 0 },
+            { id: 29, artist: "Boudicca", title: "Serpentine", plays: 0 },
+            { id: 30, artist: "Boudicca", title: "Boys in Town", plays: 0 },
+            { id: 31, artist: "c_h_l__o_e", title: "neural", plays: 0 },
+            { id: 32, artist: "c_h_l__o_e", title: "Wahluu", plays: 0 },
+            { id: 33, artist: "C.O.B.B.", title: "icky gooey sticky", plays: 0 },
+            { id: 34, artist: "Cacti Moon", title: "The Murder", plays: 0 },
+            { id: 35, artist: "Camino Gold", title: "Sweet Pea", plays: 0 },
+            { id: 36, artist: "Carnivara", title: "CULDESAC", plays: 0 },
+            { id: 37, artist: "Carnivara", title: "Rhumba", plays: 0 },
+            { id: 38, artist: "Caster", title: "To See Is to Rot", plays: 0 },
+            { id: 39, artist: "CATPISS", title: "Beauty Regime", plays: 0 },
+            { id: 40, artist: "CATPISS", title: "Coffin Nails", plays: 0 },
+            { id: 41, artist: "CENTRAL", title: "masks", plays: 0 },
+            { id: 42, artist: "CENTRAL", title: "Visions", plays: 0 },
+            { id: 43, artist: "CENTRAL", title: "I.D", plays: 0 },
+            { id: 44, artist: "CENTRAL", title: "Solid", plays: 0 },
+            { id: 45, artist: "Charlie Farmer", title: "AGE", plays: 0 },
+            { id: 46, artist: "Cheap Delusions", title: "In My Dreams", plays: 0 },
+            { id: 47, artist: "CLUTCH KICK", title: "DISRESPECTED", plays: 0 },
+            { id: 48, artist: "Collector", title: "Brick Silo", plays: 0 },
+            { id: 49, artist: "Conflikt", title: "WEIRDO", plays: 0 },
+            { id: 50, artist: "Cormac Grant", title: "Montréal", plays: 0 },
+            { id: 51, artist: "Cormac Grant", title: "Threadbare", plays: 0 },
+            { id: 52, artist: "Cutthroat", title: "Forever Nothing", plays: 0 },
+            { id: 53, artist: "Daisy Chain", title: "Stranger In The Skin", plays: 0 },
+            { id: 54, artist: "Daisy Chain", title: "Pig House", plays: 0 },
+            { id: 55, artist: "Dane Tutty", title: "Happy", plays: 0 },
+            { id: 56, artist: "Dane Tutty", title: "Not The Date", plays: 0 },
+            { id: 57, artist: "Dane Tutty", title: "What a horrible mess", plays: 0 },
+            { id: 58, artist: "dayhaze", title: "break down", plays: 0 },
+            { id: 59, artist: "Dead Mall", title: "GASOLINE", plays: 0 },
+            { id: 60, artist: "Dead Mall", title: "PROPERTY DAMAGE", plays: 0 },
+            { id: 61, artist: "Dead Mall", title: "EVICTION NIGHT", plays: 0 },
+            { id: 62, artist: "Dead Mall", title: "100% PURE POISON", plays: 0 },
+            { id: 63, artist: "Dead Mall", title: "CORRIDOR VIOLENCE", plays: 0 },
+            { id: 64, artist: "Dead Mall", title: "SUPERLIMINAL", plays: 0 },
+            { id: 65, artist: "Deadshowws", title: "I Should", plays: 0 },
+            { id: 66, artist: "Deadshowws", title: "Summer Rust", plays: 0 },
+            { id: 67, artist: "Deadshowws", title: "Wallflower", plays: 0 },
+            { id: 68, artist: "Death Dance", title: "Disintegration", plays: 0 },
+            { id: 69, artist: "Dipodium", title: "Coagulate", plays: 0 },
+            { id: 70, artist: "Discount Code", title: "Doomed Existence", plays: 0 },
+            { id: 71, artist: "doris", title: "Every Hound", plays: 0 },
+            { id: 72, artist: "Dr. Dankenstein", title: "Runnin Around Town", plays: 0 },
+            { id: 73, artist: "dust", title: "Drawbacks", plays: 0 },
+            { id: 74, artist: "dust", title: "Alastair", plays: 0 },
+            { id: 75, artist: "dust", title: "Swamped", plays: 0 },
+            { id: 76, artist: "e4444e", title: "Liberation", plays: 0 },
+            { id: 77, artist: "e4444e", title: "Crutch", plays: 0 },
+            { id: 78, artist: "e4444e", title: "Meaning", plays: 0 },
+            { id: 79, artist: "e4444e", title: "Push the Dove", plays: 0 },
+            { id: 80, artist: "Elestial", title: "The One Mistake", plays: 0 },
+            { id: 81, artist: "False Persona;Mall Grab", title: "Crazy", plays: 0 },
+            { id: 82, artist: "Fatal Excuse", title: "LETHAL DIVERSION", plays: 0 },
+            { id: 83, artist: "Feel The Pain", title: "WAR WITHIN MYSELF", plays: 0 },
+            { id: 84, artist: "Feel The Pain", title: "TURN TO DUST", plays: 0 },
+            { id: 85, artist: "feign", title: "jealous", plays: 0 },
+            { id: 86, artist: "feign", title: "behind closed doors", plays: 0 },
+            { id: 87, artist: "feign", title: "slip away", plays: 0 },
+            { id: 88, artist: "Foreign Horror", title: "Boys At The Back", plays: 0 },
+            { id: 89, artist: "Fungas", title: "Knife 2 You", plays: 0 },
+            { id: 90, artist: "Fungas", title: "Wandering Eye", plays: 0 },
+            { id: 91, artist: "Fungas", title: "Granulate", plays: 0 },
+            { id: 92, artist: "Fungas", title: "Spool", plays: 0 },
+            { id: 93, artist: "G.A.G.", title: "Trying", plays: 0 },
+            { id: 94, artist: "GARGOYLAR", title: "A Big Slug (BONUS TRACK, A CUT SONG FROM FREAK ROCK DEMOS)", plays: 0 },
+            { id: 95, artist: "gauze", title: "What You Want", plays: 0 },
+            { id: 96, artist: "Georgie Winchester;Nick Saxon", title: "Lighthouse", plays: 0 },
+            { id: 97, artist: "Gidget Moon & The Stars", title: "Piscean Goddess", plays: 0 },
+            { id: 98, artist: "Goblet", title: "Pixie Jive", plays: 0 },
+            { id: 99, artist: "gr9lin;Duncan Woods", title: "Saltwater", plays: 0 },
+            { id: 100, artist: "Grace Aberhart", title: "Gut Punch", plays: 0 },
+            { id: 101, artist: "Grace Turner", title: "Don't Hold On", plays: 0 },
+            { id: 102, artist: "gracee", title: "closest i've ever been to the moon", plays: 0 },
+            { id: 103, artist: "gracee", title: "gumtrees", plays: 0 },
+            { id: 104, artist: "gracee", title: "streams and days", plays: 0 },
+            { id: 105, artist: "Grip Down", title: "The Dark Cloud", plays: 0 },
+            { id: 106, artist: "Grooveworks;Half Cut;Who Is Arcadia", title: "Take A Little Trip", plays: 0 },
+            { id: 107, artist: "Handsome Alice", title: "Satellites", plays: 0 },
+            { id: 108, artist: "Herd Immunity", title: "A Place To Go", plays: 0 },
+            { id: 109, artist: "Hey Lady!", title: "Go Quiet", plays: 0 },
+            { id: 110, artist: "Hey Lady!", title: "Three More Times", plays: 0 },
+            { id: 111, artist: "horse", title: "BLIGHT", plays: 0 },
+            { id: 112, artist: "horse", title: "Headlights", plays: 0 },
+            { id: 113, artist: "Ill Natured;Splinter", title: "We Still Remain", plays: 0 },
+            { id: 114, artist: "Ironbark", title: "Scales", plays: 0 },
+            { id: 115, artist: "Iryss", title: "Eventually", plays: 0 },
+            { id: 116, artist: "Izaak Clifford", title: "Déjà Vu", plays: 0 },
+            { id: 117, artist: "izzy t", title: "BANK STATEMENTS", plays: 0 },
+            { id: 118, artist: "izzy t;Toekio", title: "LUNCH BREAK FREESTYLE", plays: 0 },
+            { id: 119, artist: "Jacques Levy's Desire", title: "Lightning in a bottle", plays: 0 },
+            { id: 120, artist: "Jacques Levy's Desire", title: "Fairweather", plays: 0 },
+            { id: 121, artist: "Jacques Levy's Desire", title: "Romance In Rosengarten", plays: 0 },
+            { id: 122, artist: "Jeff Benzos", title: "Gun Me Down", plays: 0 },
+            { id: 123, artist: "jetpilot", title: "Taco bell", plays: 0 },
+            { id: 124, artist: "Joel Leggett", title: "Should've Known Better", plays: 0 },
+            { id: 125, artist: "Jordan Hunt;Dark Pattern", title: "Where Do I Belong?", plays: 0 },
+            { id: 126, artist: "jyc.", title: "feels like summer", plays: 0 },
+            { id: 127, artist: "Kelzy", title: "Old Memories", plays: 0 },
+            { id: 128, artist: "Kofi Harara", title: "MONEY", plays: 0 },
+            { id: 129, artist: "LavJav", title: "WasteTown", plays: 0 },
+            { id: 130, artist: "Letters to Lions", title: "Spare Change", plays: 0 },
+            { id: 131, artist: "louise101", title: "DRAIN", plays: 0 },
+            { id: 132, artist: "Lucky Boys", title: "REAL LOVE", plays: 0 },
+            { id: 133, artist: "Lucky Boys", title: "GO CHESTER", plays: 0 },
+            { id: 134, artist: "Lucky Boys", title: "SEE THAT?", plays: 0 },
+            { id: 135, artist: "LUPO.THEBOY", title: "Paris", plays: 0 },
+            { id: 136, artist: "LUPO.THEBOY", title: "Far with Nothing", plays: 0 },
+            { id: 137, artist: "Mall Grab", title: "New York", plays: 0 },
+            { id: 138, artist: "Mall Grab", title: "The Way I'm Feeling", plays: 0 },
+            { id: 139, artist: "Maple's Pet Dinosaur", title: "lego", plays: 0 },
+            { id: 140, artist: "MAVS;ASHA", title: "Numb", plays: 0 },
+            { id: 141, artist: "Me and Friends", title: "When I'm Ready", plays: 0 },
+            { id: 142, artist: "Me Local Member Of Parliament", title: "champagne in my asshole", plays: 0 },
+            { id: 143, artist: "Melvic Centre", title: "Exit Stage Left", plays: 0 },
+            { id: 144, artist: "Melvic Centre", title: "Snake Oil", plays: 0 },
+            { id: 145, artist: "Melvic Centre", title: "First to Know", plays: 0 },
+            { id: 146, artist: "Midway", title: "Silhouette", plays: 0 },
+            { id: 147, artist: "Midway", title: "Stitch Up", plays: 0 },
+            { id: 148, artist: "Midway", title: "As It Is", plays: 0 },
+            { id: 149, artist: "Midway", title: "Samsar", plays: 0 },
+            { id: 150, artist: "Mishayla", title: "silver line", plays: 0 },
+            { id: 151, artist: "Mishayla", title: "late night talking", plays: 0 },
+            { id: 152, artist: "Mishayla", title: "the man", plays: 0 },
+            { id: 153, artist: "Model Audio", title: "A.T.B.Y.D.", plays: 0 },
+            { id: 154, artist: "Molly Millington", title: "Your Villain", plays: 0 },
+            { id: 155, artist: "mycriesfallondeafears", title: "i ate a perc and thought i was batman", plays: 0 },
+            { id: 156, artist: "nightdive", title: "Diviner", plays: 0 },
+            { id: 157, artist: "Nina Romeru", title: "When You See Me - Live At Customs House", plays: 0 },
+            { id: 158, artist: "Nina Romeru", title: "Good Goodbyes - Live At Customs House", plays: 0 },
+            { id: 159, artist: "Ninajirachi", title: "All I Am", plays: 0 },
+            { id: 160, artist: "Ninajirachi", title: "London Song", plays: 0 },
+            { id: 161, artist: "Ninajirachi", title: "All At Once", plays: 0 },
+            { id: 162, artist: "Ninajirachi", title: "Infohazard", plays: 0 },
+            { id: 163, artist: "Ninajirachi", title: "Fuck My Computer", plays: 0 },
+            { id: 164, artist: "Noah Church", title: "Speak Slowly", plays: 0 },
+            { id: 165, artist: "OHNA", title: "RIGHT NOW SOMEHOW", plays: 0 },
+            { id: 166, artist: "Old House", title: "Desks and Chairs", plays: 0 },
+            { id: 167, artist: "Pocket Robot", title: "chewy under chairs", plays: 0 },
+            { id: 168, artist: "POLTERGEIST 9000;Finlay Ross", title: "Higher Frequencies", plays: 0 },
+            { id: 169, artist: "POLTERGEIST 9000;Finlay Ross", title: "Traks", plays: 0 },
+            { id: 170, artist: "POLTERGEIST 9000;Finlay Ross", title: "Sonic Interruptions", plays: 0 },
+            { id: 171, artist: "Ponzi Scheme", title: "Nightcrawler", plays: 0 },
+            { id: 172, artist: "Quaid Pearce", title: "Hustlin", plays: 0 },
+            { id: 173, artist: "Quaid Pearce", title: "I Need Ya Here", plays: 0 },
+            { id: 174, artist: "Quaid Pearce", title: "Automatic", plays: 0 },
+            { id: 175, artist: "Quaid Pearce", title: "Never Givin Up", plays: 0 },
+            { id: 176, artist: "RAILS", title: "CONQUEST", plays: 0 },
+            { id: 177, artist: "Red Room", title: "Late Night Tip", plays: 0 },
+            { id: 178, artist: "Red Room", title: "Hustla Baby", plays: 0 },
+            { id: 179, artist: "Resident.", title: "it was always you", plays: 0 },
+            { id: 180, artist: "Robbie Thunder", title: "Only Tonite", plays: 0 },
+            { id: 181, artist: "Robbie Thunder;Busted Head Racket", title: "BAD LUCK", plays: 0 },
+            { id: 182, artist: "Rose White", title: "Vanilla", plays: 0 },
+            { id: 183, artist: "Rose White", title: "Chocolate", plays: 0 },
+            { id: 184, artist: "Rose White", title: "Bones", plays: 0 },
+            { id: 185, artist: "Rose White", title: "Strawberry", plays: 0 },
+            { id: 186, artist: "Rum Jungle", title: "Rocketship", plays: 0 },
+            { id: 187, artist: "Rum Jungle", title: "What's It Like", plays: 0 },
+            { id: 188, artist: "Rum Jungle", title: "Hi Hello", plays: 0 },
+            { id: 189, artist: "Rum Jungle", title: "Notice", plays: 0 },
+            { id: 190, artist: "Rum Jungle", title: "What's Next", plays: 0 },
+            { id: 191, artist: "Rum Jungle", title: "Pass You By", plays: 0 },
+            { id: 192, artist: "Ruumi", title: "Shareen (mestyle)", plays: 0 },
+            { id: 193, artist: "Ruumi;Dobbie", title: "The Rocks", plays: 0 },
+            { id: 194, artist: "Sammy Luka's Sundown Band", title: "I Am Content Staring Out My Window", plays: 0 },
+            { id: 195, artist: "Sammy Luka's Sundown Band", title: "The Sound of the City", plays: 0 },
+            { id: 196, artist: "Samuel Winder", title: "Dog", plays: 0 },
+            { id: 197, artist: "Samuel Winder", title: "Dustbowl Disco", plays: 0 },
+            { id: 198, artist: "Secret World", title: "Everywhere Now", plays: 0 },
+            { id: 199, artist: "SHARKS! SHARKS! SHARKS!", title: "Luck? Never Heard Of Him", plays: 0 },
+            { id: 200, artist: "Sheena Dali's Swedish Magazines", title: "Grey Hamburger", plays: 0 },
+            { id: 201, artist: "Simba Monroe", title: "TRAGEDY", plays: 0 },
+            { id: 202, artist: "Simba Monroe;IGGY CLUE", title: "BRAND NU", plays: 0 },
+            { id: 203, artist: "SKELTER", title: "Dolphin", plays: 0 },
+            { id: 204, artist: "Skorn", title: "You Won't Last", plays: 0 },
+            { id: 205, artist: "Skyepaint", title: "Passenger", plays: 0 },
+            { id: 206, artist: "Sondar", title: "Chemical Debt", plays: 0 },
+            { id: 207, artist: "Soul Wun", title: "To Fly", plays: 0 },
+            { id: 208, artist: "Soy", title: "Expired Plead", plays: 0 },
+            { id: 209, artist: "Soyboy", title: "Slap!", plays: 0 },
+            { id: 210, artist: "Spat Out", title: "Cold On Me", plays: 0 },
+            { id: 211, artist: "Stagger", title: "Stagger", plays: 0 },
+            { id: 212, artist: "Stagger", title: "HeadRip", plays: 0 },
+            { id: 213, artist: "STEEL CITY SONICHU", title: "RIGHT NOW", plays: 0 },
+            { id: 214, artist: "STEEL CITY SONICHU", title: "SNACK PACK", plays: 0 },
+            { id: 215, artist: "STEEL CITY SONICHU;KA$H KETCHUM", title: "JUNGLE JUICE", plays: 0 },
+            { id: 216, artist: "STEEL CITY SONICHU;PFIZER;MIKEY", title: "SEDITIONARIES", plays: 0 },
+            { id: 217, artist: "Taki", title: "Dangerous", plays: 0 },
+            { id: 218, artist: "The Axolotls", title: "Think Twice", plays: 0 },
+            { id: 219, artist: "The Cheaks", title: "Talk It Out", plays: 0 },
+            { id: 220, artist: "The FX42", title: "frank's apology", plays: 0 },
+            { id: 221, artist: "The FX42", title: "pretty (far on foot)", plays: 0 },
+            { id: 222, artist: "The Golden Gaytimes", title: "Cherries and Cheeses", plays: 0 },
+            { id: 223, artist: "The Gooch Palms", title: "58d", plays: 0 },
+            { id: 224, artist: "The Med Heads", title: "Malnutrition", plays: 0 },
+            { id: 225, artist: "The Med Heads", title: "Sensitive", plays: 0 },
+            { id: 226, artist: "The Night Slug", title: "Daddy's Home", plays: 0 },
+            { id: 227, artist: "The Tryouts", title: "Truckin 'n' Fuckin", plays: 0 },
+            { id: 228, artist: "The Tryouts", title: "Good Year", plays: 0 },
+            { id: 229, artist: "Trophy Wyfe", title: "Come Around", plays: 0 },
+            { id: 230, artist: "Trophy Wyfe", title: "Timing", plays: 0 },
+            { id: 231, artist: "Volatile Ways", title: "Perfect Dark", plays: 0 },
+            { id: 232, artist: "Volatile Ways", title: "Televised Suicide", plays: 0 },
+            { id: 233, artist: "Volatile Ways", title: "God Will Be Cut", plays: 0 },
+            { id: 234, artist: "WAY LIE", title: "Do You Wanna Die", plays: 0 },
+            { id: 235, artist: "Wet Cigarette", title: "OWN WORST ENEMY", plays: 0 },
+            { id: 236, artist: "where's jimmy", title: "Hanging On", plays: 0 },
+            { id: 237, artist: "Wolfendörf", title: "Beyond The Castle Grounds", plays: 0 },
+            { id: 238, artist: "Wrenasmir", title: "Rh Vx", plays: 0 },
+            { id: 239, artist: "yves sage hunter", title: "turn around", plays: 0 },
+            { id: 240, artist: "yves sage hunter", title: "beach rip", plays: 0 },
+            { id: 241, artist: "zoe davis", title: "38 harbour street", plays: 0 }
+        ];
         
-        allSongs = data.values.map((row, index) => ({
-            id: index + 1,
-            artist: row[0] || '',
-            title: row[1] || '',
-            plays: parseInt(row[2]) || 0
-        }));
-        
-        renderSongs();
-    } catch (error) {
-        console.error('Error loading tracks:', error);
-        alert('Failed to load tracks. Please refresh.');
-    }
-}
-
-// Call this in DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function() {
-    loadSongsFromSheet(); // Add this line
-    loadSavedShortlist();
-    // ... rest of code
-});
-
         let selectedSongs = [];
         let customSongs = [];
         let currentEmail = '';
@@ -500,15 +690,68 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            renderSongs();
+            // Try to load from Google Sheets first, fallback to hardcoded
+            loadSongsFromSheet();
             loadSavedShortlist();
             
             document.getElementById('emailInput').addEventListener('input', handleEmailChange);
             document.getElementById('searchInput').addEventListener('input', handleSearch);
         });
 
+        // Load songs from Google Sheets (PUBLIC sheet - no API key needed!)
+        async function loadSongsFromSheet() {
+            try {
+                // Using public Google Sheets CSV export - no API key needed!
+                const url = `https://docs.google.com/spreadsheets/d/${TRACKS_SHEET_ID}/export?format=csv&gid=0`;
+                
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Sheet not accessible');
+                
+                const csvText = await response.text();
+                
+                // Parse CSV
+                const lines = csvText.split('\n');
+                const loadedSongs = lines.slice(1) // Skip header row
+                    .filter(line => line.trim()) // Remove empty lines
+                    .map((line, index) => {
+                        const parts = line.split(',');
+                        return {
+                            id: index + 1,
+                            artist: parts[0] ? parts[0].replace(/"/g, '').trim() : '',
+                            title: parts[1] ? parts[1].replace(/"/g, '').trim() : '',
+                            plays: parts[2] ? parseInt(parts[2]) || 0 : 0
+                        };
+                    })
+                    .filter(song => song.artist && song.title); // Only include valid songs
+                
+                // Only replace if we got valid data
+                if (loadedSongs.length > 0) {
+                    allSongs = loadedSongs;
+                    console.log('Loaded', allSongs.length, 'tracks from Google Sheets');
+                } else {
+                    console.log('Using hardcoded tracks (no data in sheet)');
+                }
+                
+                renderSongs();
+            } catch (error) {
+                console.error('Error loading tracks from sheet:', error);
+                console.log('Using hardcoded tracks as fallback');
+                renderSongs(); // Use the hardcoded songs
+            }
+        }
+
         function renderSongs(filteredSongs = allSongs) {
             const container = document.getElementById('songsList');
+            
+            if (allSongs.length === 0 && filteredSongs.length === 0) {
+                return; // Still loading
+            }
+            
+            if (filteredSongs.length === 0) {
+                container.innerHTML = '<div class="empty-state">No tracks found matching your search.</div>';
+                return;
+            }
+            
             container.innerHTML = filteredSongs.map(song => {
                 const isSelected = selectedSongs.some(s => s.id === song.id);
                 const canSelect = (selectedSongs.length + customSongs.length) < MAX_SELECTIONS || isSelected;
@@ -709,23 +952,22 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             try {
-                // Save to localStorage (for demo)
+                // Save to localStorage (for demo/backup)
                 const votes = JSON.parse(localStorage.getItem('votes') || '[]');
                 votes.push(currentEmail.toLowerCase());
                 localStorage.setItem('votes', JSON.stringify(votes));
 
-                // Save vote data
                 const allVotes = JSON.parse(localStorage.getItem('allVotes') || '[]');
                 allVotes.push(voteData);
                 localStorage.setItem('allVotes', JSON.stringify(allVotes));
 
-                // If you have Google Sheets setup:
-                 await fetch(GOOGLE_SHEETS_URL, {
-                     method: 'POST',
-                     mode: 'no-cors',
-                     headers: { 'Content-Type': 'application/json' },
-                     body: JSON.stringify(voteData)
-                
+                // Submit to Google Sheets (VOTES sheet)
+                await fetch(VOTES_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(voteData)
+                });
 
                 // Show success
                 document.getElementById('totalCount').textContent = total;
