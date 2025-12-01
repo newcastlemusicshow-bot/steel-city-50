@@ -1,4 +1,87 @@
-<!DOCTYPE html>
+// Steel City 50 2025 Track List
+        let allSongs = [
+            { id: 1, artist: "198archie", title: "So Easy" },
+            { id: 2, artist: "198archie", title: "Tracing Thru Sand" },
+            { id: 3, artist: "198archie;Banjo Ulysses", title: "A Day in the Life" },
+            { id: 4, artist: "4K Death Dream", title: "iCarly" },
+            { id: 5, artist: "4K Death Dream;Craterface", title: "Acid Drops" },
+            { id: 6, artist: "Allan Parmenter;Adam Miller", title: "Smoky Bar" },
+            { id: 7, artist: "Arietta", title: "Bittersweet" },
+            { id: 8, artist: "ASCN", title: "A Waking Tomorow" },
+            { id: 9, artist: "Aunty Alan", title: "freEzer" },
+            { id: 10, artist: "Aunty Alan", title: "jasmine's flower" },
+            { id: 11, artist: "Baby Bruh", title: "BBTV-1" },
+            { id: 12, artist: "Baby Bruh", title: "LOVE-LETTER 2 NEWCASTLE" },
+            { id: 13, artist: "Baby Bruh", title: "sAdevinyl:)" },
+            { id: 14, artist: "Baby Bruh", title: "TRICKS + SKILLS" },
+            { id: 15, artist: "Baby Bruh", title: "ANDREW AND DANIEL" },
+            { id: 16, artist: "Baby Bruh;Dobbie", title: "rock on baby bruh, follow your heart until the bitter end (RABBLEROUSIN') - Special Version" },
+            { id: 17, artist: "Baby Bruh;Dobbie", title: "letterZ (lift0ff)" },
+            { id: 18, artist: "Baby Bruh;Ruumi", title: "SEIKO BOYZ" },
+            { id: 19, artist: "Baby Bruh;sinkholecrim;Banjo Ulysses;The Moc", title: "i lost myself and realised it was supposed to happen" },
+            { id: 20, artist: "Banjo Ulysses", title: "Boring" },
+            { id: 21, artist: "Banjo Ulysses", title: "Jet Set" },
+            { id: 22, artist: "Banjo Ulysses", title: "Sky" },
+            { id: 23, artist: "Banjo Ulysses", title: "Get Lost" },
+            { id: 24, artist: "Banjo Ulysses", title: "The Biggest Flex Anyone Will Ever Have Is Dying" },
+            { id: 25, artist: "Banjo Ulysses", title: "Window" },
+            { id: 26, artist: "Banjo Ulysses", title: "NYE" },
+            { id: 27, artist: "Beep Test", title: "Get It Right" },
+            { id: 28, artist: "Beep Test", title: "Alone" },
+            { id: 29, artist: "Boudicca", title: "Serpentine" },
+            { id: 30, artist: "Boudicca", title: "Boys in Town" },
+            { id: 31, artist: "c_h_l__o_e", title: "neural" },
+            { id: 32, artist: "c_h_l__o_e", title: "Wahluu" },
+            { id: 33, artist: "C.O.B.B.", title: "icky gooey sticky" },
+            { id: 34, artist: "Cacti Moon", title: "The Murder" },
+            { id: 35, artist: "Camino Gold", title: "Sweet Pea" },
+            { id: 36, artist: "Carnivara", title: "CULDESAC" },
+            { id: 37, artist: "Carnivara", title: "Rhumba" },
+            { id: 38, artist: "Caster", title: "To See Is to Rot" },
+            { id: 39, artist: "CATPISS", title: "Beauty Regime" },
+            { id: 40, artist: "CATPISS", title: "Coffin Nails" },
+            { id: 41, artist: "CENTRAL", title: "masks" },
+            { id: 42, artist: "CENTRAL", title: "Visions" },
+            { id: 43, artist: "CENTRAL", title: "I.D" },
+            { id: 44, artist: "CENTRAL", title: "Solid" },
+            { id: 45, artist: "Charlie Farmer", title: "AGE" },
+            { id: 46, artist: "Cheap Delusions", title: "In My Dreams" },
+            { id: 47, artist: "CLUTCH KICK", title: "DISRESPECTED" },
+            { id: 48, artist: "Collector", title: "Brick Silo" },
+            { id: 49, artist: "Conflikt", title: "WEIRDO" },
+            { id: 50, artist: "Cormac Grant", title: "Montréal" },
+            { id: 51, artist: "Cormac Grant", title: "Threadbare" },
+            { id: 52, artist: "Cutthroat", title: "Forever Nothing" },
+            { id: 53, artist: "Daisy Chain", title: "Stranger In The Skin" },
+            { id: 54, artist: "Daisy Chain", title: "Pig House" },
+            { id: 55, artist: "Dane Tutty", title: "Happy" },
+            { id: 56, artist: "Dane Tutty", title: "Not The Date" },
+            { id: 57, artist: "Dane Tutty", title: "What a horrible mess" },
+            { id: 58, artist: "dayhaze", title: "break down" },
+            { id: 59, artist: "Dead Mall", title: "GASOLINE" },
+            { id: 60, artist: "Dead Mall", title: "PROPERTY DAMAGE" },
+            { id: 61, artist: "Dead Mall", title: "EVICTION NIGHT" },
+            { id: 62, artist: "Dead Mall", title: "100% PURE POISON" },
+            { id: 63, artist: "Dead Mall", title: "CORRIDOR VIOLENCE" },
+            { id: 64, artist: "Dead Mall", title: "SUPERLIMINAL" },
+            { id: 65, artist: "Deadshowws", title: "I Should" },
+            { id: 66, artist: "Deadshowws", title: "Summer Rust" },
+            { id: 67, artist: "Deadshowws", title: "Wallflower" },
+            { id: 68, artist: "Death Dance", title: "Disintegration" },
+            { id: 69, artist: "Dipodium", title: "Coagulate" },
+            { id: 70, artist: "Discount Code", title: "Doomed Existence" },
+            { id: 71, artist: "doris", title: "Every Hound" },
+            { id: 72, artist: "Dr. Dankenstein", title: "Runnin Around Town" },
+            { id: 73, artist: "dust", title: "Drawbacks" },
+            { id: 74, artist: "dust", title: "Alastair" },
+            { id: 75, artist: "dust", title: "Swamped" },
+            { id: 76, artist: "e4444e", title: "Liberation" },
+            { id: 77, artist: "e4444e", title: "Crutch" },
+            { id: 78, artist: "e4444e", title: "Meaning" },
+            { id: 79, artist: "e4444e", title: "Push the Dove" },
+            { id: 80, artist: "Elestial", title: "The One Mistake" },
+            { id: 81, artist: "False Persona;Mall Grab", title: "Crazy" },
+            { id: 82, artist: "Fatal Excuse", title: "LETHAL DIVERSION" },<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -152,12 +235,6 @@
         .song-artist {
             color: #6b7280;
             font-size: 0.9rem;
-        }
-
-        .song-plays {
-            color: #9ca3af;
-            font-size: 0.85rem;
-            margin-right: 15px;
         }
 
         .selected-item {
@@ -410,7 +487,7 @@
                     📤 Submit Your Vote
                 </button>
                 <p style="text-align: center; color: #6b7280; font-size: 0.9rem; margin-top: 15px;">
-                    One vote per person. Voting closes December 28th at midnight.
+                    One vote per person. Voting closes November 30th at midnight.
                 </p>
             </div>
         </div>
@@ -439,17 +516,18 @@
         const TRACKS_SHEET_ID = '1bBkfFxw5I2aNVxWTknl6XSYHJj6nqQD5pKk_MAXQ368'; // Your tracks sheet (DO NOT CHANGE)
 
         // Steel City 50 2025 Track List
+        // Add preview URLs to your tracks (optional)
         let allSongs = [
-            { id: 1, artist: "198archie", title: "So Easy", plays: 0 },
-            { id: 2, artist: "198archie", title: "Tracing Thru Sand", plays: 0 },
-            { id: 3, artist: "198archie;Banjo Ulysses", title: "A Day in the Life", plays: 0 },
-            { id: 4, artist: "4K Death Dream", title: "iCarly", plays: 0 },
-            { id: 5, artist: "4K Death Dream;Craterface", title: "Acid Drops", plays: 0 },
-            { id: 6, artist: "Allan Parmenter;Adam Miller", title: "Smoky Bar", plays: 0 },
-            { id: 7, artist: "Arietta", title: "Bittersweet", plays: 0 },
-            { id: 8, artist: "ASCN", title: "A Waking Tomorow", plays: 0 },
-            { id: 9, artist: "Aunty Alan", title: "freEzer", plays: 0 },
-            { id: 10, artist: "Aunty Alan", title: "jasmine's flower", plays: 0 },
+            { id: 1, artist: "198archie", title: "So Easy", previewUrl: "" },
+            { id: 2, artist: "198archie", title: "Tracing Thru Sand", previewUrl: "" },
+            { id: 3, artist: "198archie;Banjo Ulysses", title: "A Day in the Life", previewUrl: "" },
+            { id: 4, artist: "4K Death Dream", title: "iCarly", previewUrl: "" },
+            { id: 5, artist: "4K Death Dream;Craterface", title: "Acid Drops", previewUrl: "" },
+            { id: 6, artist: "Allan Parmenter;Adam Miller", title: "Smoky Bar", previewUrl: "" },
+            { id: 7, artist: "Arietta", title: "Bittersweet", previewUrl: "" },
+            { id: 8, artist: "ASCN", title: "A Waking Tomorow", previewUrl: "" },
+            { id: 9, artist: "Aunty Alan", title: "freEzer", previewUrl: "" },
+            { id: 10, artist: "Aunty Alan", title: "jasmine's flower", previewUrl: "" },
             { id: 11, artist: "Baby Bruh", title: "BBTV-1", plays: 0 },
             { id: 12, artist: "Baby Bruh", title: "LOVE-LETTER 2 NEWCASTLE", plays: 0 },
             { id: 13, artist: "Baby Bruh", title: "sAdevinyl:)", plays: 0 },
@@ -690,7 +768,6 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            // Try to load from Google Sheets first, fallback to hardcoded
             loadSongsFromSheet();
             loadSavedShortlist();
             
@@ -711,18 +788,17 @@
                 
                 // Parse CSV
                 const lines = csvText.split('\n');
-                const loadedSongs = lines.slice(1) // Skip header row
-                    .filter(line => line.trim()) // Remove empty lines
+                const loadedSongs = lines.slice(1)
+                    .filter(line => line.trim())
                     .map((line, index) => {
                         const parts = line.split(',');
                         return {
                             id: index + 1,
                             artist: parts[0] ? parts[0].replace(/"/g, '').trim() : '',
-                            title: parts[1] ? parts[1].replace(/"/g, '').trim() : '',
-                            plays: parts[2] ? parseInt(parts[2]) || 0 : 0
+                            title: parts[1] ? parts[1].replace(/"/g, '').trim() : ''
                         };
                     })
-                    .filter(song => song.artist && song.title); // Only include valid songs
+                    .filter(song => song.artist && song.title);
                 
                 // Only replace if we got valid data
                 if (loadedSongs.length > 0) {
@@ -763,10 +839,7 @@
                             <div class="song-title">${song.title}</div>
                             <div class="song-artist">${song.artist}</div>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span class="song-plays">${song.plays} plays</span>
-                            ${isSelected ? '<span style="font-size: 1.5rem;">❤️</span>' : ''}
-                        </div>
+                        ${isSelected ? '<span style="font-size: 1.5rem;">❤️</span>' : ''}
                     </div>
                 `;
             }).join('');
