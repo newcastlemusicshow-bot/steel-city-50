@@ -317,7 +317,7 @@
         }
 
         .vote-card {
-            background-image: url('https://imgur.com/a/LJy8QZS');
+            background-image: url('./steel-city-votes-bg.jpg');
             background-size: cover;
             background-position: center;
             border-radius: 16px;
@@ -1241,7 +1241,9 @@
                     const canvas = await html2canvas(voteCard, {
                         backgroundColor: null,
                         scale: 2, // Higher quality
-                        logging: false
+                        logging: false,
+                        useCORS: true, // Enable CORS for external images
+                        allowTaint: true
                     });
                     
                     // Convert to image and download
