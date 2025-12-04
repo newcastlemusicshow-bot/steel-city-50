@@ -594,8 +594,8 @@
         // 1. VOTES_SCRIPT_URL - Your NEW Votes Sheet's Apps Script URL (for writing votes)
         // 2. TRACKS_SHEET_ID - Your existing Tracks Sheet ID (for reading tracks)
         
-        const VOTES_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMReMzY7HAMD0aOl9hzH8b78_ALROyONf1OEqy8PnuSGQjqaM-if7DZ0ORvIHOKqsv/exec'; // Replace with URL from Step 2
-        const TRACKS_SHEET_ID = '1bBkfFxw5I2aNVxWTknl6XSYHJj6nqQD5pKk_MAXQ368'; // Your tracks sheet (DO NOT CHANGE)
+        const VOTES_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMReMzY7HAMD0aOl9hzH8b78_ALROyONf1OEqy8PnuSGQjqaM-if7DZ0ORvIHOKqsv/exec'; // Replace with your actual Apps Script URL
+        const TRACKS_SHEET_ID = '1bBkfFxw5I2aNVxWTknl6XSYHJj6nqQD5pKk_MAXQ368';
 
         // Steel City 50 2025 Track List
         // Add preview URLs to your tracks (optional)
@@ -1168,6 +1168,18 @@
                 allVotes.push(voteData);
                 localStorage.setItem('allVotes', JSON.stringify(allVotes));
 
+                // Check if URL is configured
+                if (VOTES_SCRIPT_URL === 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE' || !VOTES_SCRIPT_URL) {
+                    console.error('Apps Script URL not configured');
+                    alert('Google Apps Script URL is not configured. Please contact the administrator.\n\nYour vote has been saved locally as backup.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '📤 Submit Your Vote';
+                    return;
+                }
+
+                console.log('Submitting to:', VOTES_SCRIPT_URL);
+                console.log('Vote data:', voteData);
+
                 // Submit to Google Sheets (VOTES sheet)
                 const response = await fetch(VOTES_SCRIPT_URL, {
                     method: 'POST',
@@ -1175,14 +1187,24 @@
                     body: JSON.stringify(voteData)
                 });
 
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+
                 // Try to parse response (Apps Script returns text)
                 let result;
                 try {
                     const text = await response.text();
+                    console.log('Response text:', text);
                     result = JSON.parse(text);
+                    console.log('Parsed result:', result);
                 } catch (parseError) {
-                    // If parsing fails, assume success (mode: 'no-cors' doesn't return readable response)
-                    result = { success: true };
+                    console.log('Parse error:', parseError);
+                    // If parsing fails, check if response was ok
+                    if (response.ok) {
+                        result = { success: true };
+                    } else {
+                        throw new Error('Invalid response from server');
+                    }
                 }
 
                 // Check if submission was successful
@@ -1220,10 +1242,25 @@
 
             } catch (error) {
                 console.error('Error submitting vote:', error);
+                console.error('Error details:', error.message);
                 const submitBtn = document.getElementById('submitBtn');
                 submitBtn.disabled = false;
                 submitBtn.textContent = '📤 Submit Your Vote';
-                alert('Failed to submit vote. Please check your internet connection and try again.');
+                
+                // More detailed error message
+                let errorMsg = 'Failed to submit vote.\n\n';
+                if (error.message.includes('Failed to fetch')) {
+                    errorMsg += 'Network error: Could not connect to server.\n';
+                    errorMsg += 'Please check:\n';
+                    errorMsg += '1. Your internet connection\n';
+                    errorMsg += '2. That the Google Apps Script URL is correct\n';
+                    errorMsg += '3. That the Apps Script is deployed as "Anyone" access\n\n';
+                } else {
+                    errorMsg += 'Error: ' + error.message + '\n\n';
+                }
+                errorMsg += 'Your vote has been saved locally as backup.';
+                
+                alert(errorMsg);
             }
         }
 
