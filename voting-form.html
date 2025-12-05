@@ -594,7 +594,7 @@
         // 1. VOTES_SCRIPT_URL - Your NEW Votes Sheet's Apps Script URL (for writing votes)
         // 2. TRACKS_SHEET_ID - Your existing Tracks Sheet ID (for reading tracks)
         
-        const VOTES_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMReMzY7HAMD0aOl9hzH8b78_ALROyONf1OEqy8PnuSGQjqaM-if7DZ0ORvIHOKqsv/exec'; // Replace with your actual Apps Script URL
+        const VOTES_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzngi6DptguRQiFL0bqiAV0i_Dui7VxNckeQlQ1y_Mf5IBi-UfKifDKZODOj7_6cPJt/exec';
         const TRACKS_SHEET_ID = '1bBkfFxw5I2aNVxWTknl6XSYHJj6nqQD5pKk_MAXQ368';
 
         // Steel City 50 2025 Track List
@@ -1180,32 +1180,29 @@
                 console.log('Submitting to:', VOTES_SCRIPT_URL);
                 console.log('Vote data:', voteData);
 
-                // Submit to Google Sheets (VOTES sheet)
+                // Create URL-encoded form data
+                const params = new URLSearchParams();
+                params.append('name', voteData.name);
+                params.append('postcode', voteData.postcode);
+                params.append('ageRange', voteData.ageRange);
+                params.append('email', voteData.email);
+                params.append('timestamp', voteData.timestamp);
+                params.append('totalCount', voteData.totalCount);
+                params.append('allSongs', voteData.allSongs.join(', '));
+
                 const response = await fetch(VOTES_SCRIPT_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(voteData)
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: params.toString(),
+                    mode: 'no-cors'
                 });
 
-                console.log('Response status:', response.status);
-                console.log('Response ok:', response.ok);
+                console.log('Response type:', response.type);
 
-                // Try to parse response (Apps Script returns text)
-                let result;
-                try {
-                    const text = await response.text();
-                    console.log('Response text:', text);
-                    result = JSON.parse(text);
-                    console.log('Parsed result:', result);
-                } catch (parseError) {
-                    console.log('Parse error:', parseError);
-                    // If parsing fails, check if response was ok
-                    if (response.ok) {
-                        result = { success: true };
-                    } else {
-                        throw new Error('Invalid response from server');
-                    }
-                }
+                // With no-cors mode, we can't read the response, so we assume success
+                const result = { success: true };
 
                 // Check if submission was successful
                 if (result.success === false) {
