@@ -1180,28 +1180,47 @@
                 console.log('Submitting to:', VOTES_SCRIPT_URL);
                 console.log('Vote data:', voteData);
 
-                // Create URL-encoded form data
-                const params = new URLSearchParams();
-                params.append('name', voteData.name);
-                params.append('postcode', voteData.postcode);
-                params.append('ageRange', voteData.ageRange);
-                params.append('email', voteData.email);
-                params.append('timestamp', voteData.timestamp);
-                params.append('totalCount', voteData.totalCount);
-                params.append('allSongs', voteData.allSongs.join(', '));
+                // Create a hidden iframe to submit the form
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.name = 'vote-submit-iframe';
+                document.body.appendChild(iframe);
 
-                const response = await fetch(VOTES_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: params.toString(),
-                    mode: 'no-cors'
+                // Create a temporary form
+                const form = document.createElement('form');
+                form.target = 'vote-submit-iframe';
+                form.method = 'POST';
+                form.action = VOTES_SCRIPT_URL;
+
+                // Add form fields
+                const fields = {
+                    name: voteData.name,
+                    postcode: voteData.postcode,
+                    ageRange: voteData.ageRange,
+                    email: voteData.email,
+                    timestamp: voteData.timestamp,
+                    totalCount: voteData.totalCount,
+                    allSongs: voteData.allSongs.join(', ')
+                };
+
+                Object.keys(fields).forEach(key => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = fields[key];
+                    form.appendChild(input);
                 });
 
-                console.log('Response type:', response.type);
+                document.body.appendChild(form);
+                form.submit();
 
-                // With no-cors mode, we can't read the response, so we assume success
+                // Clean up after a short delay
+                setTimeout(() => {
+                    document.body.removeChild(form);
+                    document.body.removeChild(iframe);
+                }, 2000);
+
+                // Assume success since we can't read the response
                 const result = { success: true };
 
                 // Check if submission was successful
