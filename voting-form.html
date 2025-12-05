@@ -365,13 +365,7 @@
             margin-bottom: 0;
         }
 
-        /*.vote-number {
-            font-size: 1.2rem;
-            font-weight: bold;
-            min-width: 45px;
-            color: #ffffff;
-        }
-*/
+      
         .vote-track {
             flex: 1;
         }
@@ -558,7 +552,7 @@
                     📤 Submit Your Vote
                 </button>
                 <p style="text-align: center; color: #6b7280; font-size: 0.9rem; margin-top: 15px;">
-                    One vote per person. Select between 5-10 tracks. Voting closes November 30th at midnight.
+                    One vote per person. Select between 5-10 tracks. Voting closes December 28th at midnight.
                 </p>
             </div>
         </div>
@@ -1241,7 +1235,6 @@
                 const allVotedSongs = [...selectedSongs, ...customSongs];
                 const voteListHTML = allVotedSongs.map((song, idx) => `
                     <div class="vote-list-item">
-                        <div class="vote-number">${idx + 1}</div>
                         <div class="vote-track">
                             <div class="vote-track-title">${song.title}</div>
                             <div class="vote-track-artist">${song.artist}</div>
